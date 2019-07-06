@@ -74,21 +74,22 @@ extension LinkedList {
     ///获取index位置对应的节点对象
     func add(_ index:Int, element:T) {
         // 如果下标位置无效，直接报错
-        if !indexIsVaild(index) {
-            fatalError("index out of range:\(index) not belong 0.. <\(size)")
-        }
+//        if !indexIsVaild(index) {
+//            fatalError("index out of range:\(index) not belong 0.. <\(size)")
+//        }
         if index == 0 {
             first = Node(element, next: first)
         } else {
             let prev = node(index - 1)
             prev?.next = Node.init(element, next: prev?.next)
         }
+        size += 1;
     }
     
     ///获取index位置对应的节点对象
     func node(_ index:Int) -> Node<T>? {
         var node = first
-        for _ in 0...index {
+        for _ in 0..<index {
             node = node?.next
         }
         return node
@@ -107,7 +108,6 @@ extension LinkedList {
         return old
     }
     
-    
     func remove(_ index:Int) -> T?  {
         // 如果下标位置无效，直接报错
         if !indexIsVaild(index) {
@@ -121,8 +121,71 @@ extension LinkedList {
             tempNode = prev?.next
             prev?.next = tempNode?.next
         }
-        size = size - 1
+        size -= 1
         return tempNode?.element
     }
+    
+    func remove(_ node:Node<T>? ) {
+        let next = node?.next
+        node?.element = next?.element
+        node?.next = next?.next
+        size -= 1
+    }
+    
+    func toString() -> String {
+        var str:String = ""
+        str = "size=" + "\(size)" + ", ["
+        var node = first
+        for i in 0..<size {
+            if i != 0 {
+                str += ","
+            }
+            if let node = node, let element = node.element {
+                str += "\(element)"
+            }
+            node = node?.next
+        }
+        str += "]"
+        return str
+    }
 }
+
+
+extension LinkedList where T : Equatable {
+    func indexOf(_ element:T?) -> Int? {
+        if element == nil {
+            var node = first
+            for i in 0..<size {
+                if (node?.element == nil) {
+                    return i
+                }
+                node = node?.next
+            }
+        } else {
+            var node = first
+            for i in 0..<size {
+                if element == node?.element {
+                    return i
+                }
+                node = node?.next
+            }
+        }
+        return nil
+    }
+}
+
+
+/// Test®®®®®®®®®
+
+var list = LinkedList<String>()
+list.add(0, element: "s")
+list.add(1, element: "k")
+list.add(2, element: "f")
+
+let node = list.node(1)
+
+list.remove(node)
+//list.add(3, element: nil)
+
+print(list.toString())
 
