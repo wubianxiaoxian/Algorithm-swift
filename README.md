@@ -20,6 +20,9 @@ Algorithm-swift
 | 206、反转链表 |[Leetcode](https://leetcode-cn.com/problems/reverse-linked-list/)  |[Swift](LeetCode/) 
 | 104、环形链表 |[Leetcode](https://leetcode-cn.com/problems/linked-list-cycle)  |[Swift](LeetCode/) 
 | 203、 移除链表元素 |[Leetcode](https://leetcode-cn.com/problems/remove-linked-list-elements/submissions/)  |[Swift](LeetCode/) 
+| 83. 删除排序链表中的重复元素 |[Leetcode](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list)  |[Swift](LeetCode/) 
+|237. 删除链表中的节点 |[Leetcode](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)  |[Swift](LeetCode/) 
+
 
 
 

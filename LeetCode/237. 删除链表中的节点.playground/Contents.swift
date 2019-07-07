@@ -1,39 +1,57 @@
 //MARK: - 题目
 /*
- 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
- 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
- 示例:
- 给定 nums = [2, 7, 11, 15], target = 9
- 因为 nums[0] + nums[1] = 2 + 7 = 9
- 所以返回 [0, 1]
+ 请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。
+ 
+ 现有一个链表 -- head = [4,5,1,9]，它可以表示为:
+ 
+ 
+ 
+ 示例 1:
+ 
+ 输入: head = [4,5,1,9], node = 5
+ 输出: [4,1,9]
+ 解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
+ 
+ 示例 2:
+ 
+ 输入: head = [4,5,1,9], node = 1
+ 输出: [4,5,9]
+ 解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
+ 
+ 
+ 
+ 说明:
+ 
+ 链表至少包含两个节点。
+ 链表中所有节点的值都是唯一的。
+ 给定的节点为非末尾节点并且一定是链表中的一个有效节点。
+ 不要从你的函数中返回任何结果。
+ 
+ 
+ 
  来源：力扣（LeetCode）
- 链接：https://leetcode-cn.com/problems/two-sum
+ 链接：https://leetcode-cn.com/problems/delete-node-in-a-linked-list
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
 
+public class ListNode {
+    public var val: Int
+    public var next: ListNode?
+    public init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+}
 class Solution {
-    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-        let lastArray:[Int] = []
-        var dic:[Int:Int] = [:]
-        for (i,object) in nums.enumerated() {
-            let temp = target - nums[i]
-            if dic.keys.contains(temp) {
-                return [dic[temp] ?? 0 , i]
-            }
-            dic[object] = i
+    func deleteNode(_ node:ListNode)  {
+        var tmp: ListNode? = node
+        if tmp?.next == nil {
+            tmp = tmp?.next
+            return
         }
-        return lastArray
+        tmp?.val = tmp?.next?.val ?? 0
+        tmp?.next = tmp?.next?.next
     }
 }
 
-//MARK: - 思路
-/*
- 对于这道题，首先想到的就是暴力方法，即使用两个for循环，遍历两次数组，看有没有和是目标值的。显然这样时间复杂度太大，O(n*n)
- 因此需要改良的算法，用到哈希查找的方法。
- 建立哈希表，从左向右扫描一遍，将整数与索引存放到map中。扫描一遍，对其中的每一个整数K，搜索 target-K 在map中是否存在即可。若存在，则输出 K 与 target-K 的下标即可。此算法的时间复杂度为O(n)
- */
-
-//MARK: - Test
-let s = Solution()
-s.twoSum([3,2,4], 6)

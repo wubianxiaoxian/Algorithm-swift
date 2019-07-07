@@ -108,6 +108,17 @@ extension LinkedList {
         return old
     }
     
+    func deleteNode(_ node:Node<T>?)  {
+        var tmp = node
+        if tmp?.next == nil {
+            tmp = tmp?.next
+            return
+        }
+        tmp?.element = tmp?.next.element
+        tmp?.next = tmp?.next.next
+        size -= 1
+    }
+    
     func remove(_ index:Int) -> T?  {
         // 如果下标位置无效，直接报错
         if !indexIsVaild(index) {
@@ -199,17 +210,17 @@ extension LinkedList where T : Equatable {
 
 var list = LinkedList<Int>()
 list.add(0, element: 1)
-//list.add(1, element: 2)
-//list.add(2, element: 6)
-//list.add(3, element: 3)
-//list.add(4, element: 4)
-//list.add(5, element: 5)
-//list.add(6, element: 6)
+list.add(1, element: 2)
+list.add(2, element: 6)
+list.add(3, element: 3)
+list.add(4, element: 4)
+list.add(5, element: 5)
+list.add(6, element: 6)
 
 
-let node = list.first
+let node = list.node(4)
+print(list.toString())
 
-print("\(String(describing: node))")
-print(node?.element)
+list.deleteNode(node)
 print(list.toString())
 
