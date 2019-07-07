@@ -18,8 +18,7 @@ Algorithm-swift
 | :--- | :---: | :---: | 
 | 1、两数之和 |[Leetcode](https://leetcode-cn.com/problems/two-sum)  |[Swift](LeetCode/) 
 | 206、反转链表 |[Leetcode](https://leetcode-cn.com/problems/reverse-linked-list/)  |[Swift](LeetCode/) 
-
-
+| 104、环形链表 |[Leetcode](https://leetcode-cn.com/problems/linked-list-cycle)  |[Swift](LeetCode/) 
 
 [小码哥恋上数据结构第一季](https://ke.qq.com/course/385223#term_id=100459236)
 
