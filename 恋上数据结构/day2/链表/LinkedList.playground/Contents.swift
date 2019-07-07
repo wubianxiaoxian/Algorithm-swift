@@ -24,9 +24,9 @@ class Node<T> {
 
 
 final class LinkedList<T> {
-    private var size = 0
-    private var first:Node<T>?
-    private var lastNode:Node<T>?
+    var size = 0
+    var first:Node<T>?
+    var lastNode:Node<T>?
 }
 
 extension LinkedList {
@@ -125,6 +125,26 @@ extension LinkedList {
         return tempNode?.element
     }
     
+    func removeElements(_ head: Node<Int>?, _ val: Int) -> Node<Int>? {
+        var tmp = head?.next
+        if tmp?.element == val {
+            head?.next = nil
+            return head
+        }
+        while tmp?.next != nil {
+            if tmp?.element == val {
+                tmp?.element = tmp?.next?.element ?? 0
+                tmp?.next = tmp?.next?.next
+            } else {
+                tmp = tmp?.next
+            }
+        }
+        if tmp?.next == nil {
+            tmp = tmp?.next
+        }
+        return head
+    }
+    
     func remove(_ node:Node<T>? ) {
         let next = node?.next
         node?.element = next?.element
@@ -177,15 +197,19 @@ extension LinkedList where T : Equatable {
 
 /// Test®®®®®®®®®
 
-var list = LinkedList<String>()
-list.add(0, element: "s")
-list.add(1, element: "k")
-list.add(2, element: "f")
+var list = LinkedList<Int>()
+list.add(0, element: 1)
+//list.add(1, element: 2)
+//list.add(2, element: 6)
+//list.add(3, element: 3)
+//list.add(4, element: 4)
+//list.add(5, element: 5)
+//list.add(6, element: 6)
 
-let node = list.node(1)
 
-list.remove(node)
-//list.add(3, element: nil)
+let node = list.first
 
+print("\(String(describing: node))")
+print(node?.element)
 print(list.toString())
 
