@@ -23,10 +23,6 @@ Algorithm-swift
 | 83. 删除排序链表中的重复元素 |[Leetcode](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list)  |[Swift](LeetCode/) 
 |237. 删除链表中的节点 |[Leetcode](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)  |[Swift](LeetCode/) 
 
-
-
-
-
 [小码哥恋上数据结构第一季](https://ke.qq.com/course/385223#term_id=100459236)
 
 [友情链接：C++版本](https://github.com/BestiOSDev/MJ_DataStructures)
