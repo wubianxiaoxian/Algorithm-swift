@@ -179,6 +179,33 @@ extension LinkedList {
         str += "]"
         return str
     }
+    
+    func toInt() -> Int  {
+        var firstNumver:Int = 0
+        var firstlevel:Int = 1
+        var nextNode:Node<Int>? = first?.next as? Node<Int>
+        firstNumver += (nextNode?.element ?? 0) * firstlevel
+        while nextNode != nil {
+            firstlevel = firstlevel * 10
+            nextNode = nextNode?.next
+            firstNumver = firstNumver +  (nextNode?.element ?? 0) * firstlevel
+        }
+        return firstNumver
+    }
+    
+    func buildWith(_ Num:Int) {
+        var nextLevel = 10
+        var nextNode:Node<Int>? = Node.init(Num % 10)
+        first?.next = nextNode as? Node<T>
+        while nextNode != nil && nextLevel < Num {
+            nextLevel = nextLevel * 10
+            let n = Num % nextLevel
+            let new = n == 0 ? nil : Node.init(Num % nextLevel)
+            nextNode?.next = new
+            nextNode = new
+            size += 1
+        }
+    }
 }
 
 
@@ -206,21 +233,68 @@ extension LinkedList where T : Equatable {
 }
 
 
+
+extension LinkedList {
+    static func mergeKLists(_ lists: [Node<Int>?]) -> Node<Int>? {
+        if lists.count == 0 {
+            return nil
+        }
+        var tmpLists = lists
+        var interval = 1
+        while interval < tmpLists.count {
+            for i in stride(from: 0, to: tmpLists.count - 1, by: interval * 2) {
+                tmpLists[i] = mergeTwoLists(tmpLists[i], l2: tmpLists[i + interval])
+            }
+            
+            interval = interval * 2
+        }
+        return lists[0]
+    }
+    
+    static func mergeTwoLists(_ l1:Node<Int>?, l2:Node<Int>?) -> Node<Int>? {
+        if l1 == nil && l2 == nil {
+            return nil
+        }
+        var temL1: Node<Int>? = l1
+        var temL2: Node<Int>? = l2
+        var h: Node<Int>? = Node<Int>(0)
+        let ans = h
+        while temL1 != nil && temL2 != nil {
+            if (temL1?.element ?? 0) < (temL2?.element ?? 0) {
+                h?.next = l1
+                h = h?.next
+                temL1 = temL1?.next
+            } else {
+                h?.next = l2
+                h = h?.next
+                temL2 = temL2?.next
+            }
+        }
+        if temL1 == nil {
+            h?.next = l2
+        }
+        if temL2 == nil {
+            h?.next = l1
+        }
+        return ans?.next
+    }
+}
+
 /// Test®®®®®®®®®
 
-var list = LinkedList<Int>()
-list.add(0, element: 1)
-list.add(1, element: 2)
-list.add(2, element: 6)
-list.add(3, element: 3)
-list.add(4, element: 4)
-list.add(5, element: 5)
-list.add(6, element: 6)
+var list1 = LinkedList<Int>()
+list1.add(0, element: 0)
+list1.add(1, element: 1)
+list1.add(2, element: 2)
+
+var list2 = LinkedList<Int>()
+list2.add(0, element: 7)
+list2.add(1, element: 8)
+list2.add(2, element: 9)
 
 
-let node = list.node(4)
-print(list.toString())
+LinkedList<Int>.mergeTwoLists(list1.first, l2: list2.first)
 
-list.deleteNode(node)
-print(list.toString())
+let k = LinkedList<Int>.mergeTwoLists(list1.first, l2: list2.first)
 
+print(k?.element)

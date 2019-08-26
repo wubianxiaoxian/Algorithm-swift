@@ -25,19 +25,21 @@
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
-
-public class ListNode {
-    public var val: Int
-    public var next: ListNode?
-    public init(_ val: Int) {
-        self.val = val
-        self.next = nil
+class ListNode<T> : Equatable where T : Equatable {
+    static func == (lhs: ListNode<T>, rhs: ListNode<T>) -> Bool {
+        return lhs.element == rhs.element && lhs.next == rhs.next
+    }
+    var element:T!
+    var next:ListNode<T>!
+    init(_ element : T, next:ListNode? = nil) {
+        self.element = element
+        self.next = next
     }
 }
 // 思路，快慢指针
-class Solution {
+class Solution<T> where T : Equatable {
     /// 判断链表有环
-    func hasCycle(_ head:ListNode?) -> Bool {
+    func hasCycle(_ head: ListNode<T>?) -> Bool {
         if (head == nil || head?.next == nil) {
             return false
         }
