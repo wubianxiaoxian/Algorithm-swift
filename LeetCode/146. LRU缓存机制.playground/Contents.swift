@@ -29,104 +29,94 @@
  */
 
 
+
 class LRUCache {
-    ///哈希表
-    var map: [Int:Node?] = [:]
-    
-    /// 双向链表
-    var cache: LikedList
-    
-    ///最大容量
-    var capacity: Int
-    
-    
+    var map: [Int : Node] = [:]
+    var capacity: Int = 0
+    var cacheList: NodeList?
+
     init(_ capacity: Int) {
         self.capacity = capacity
-        self.map = [:]
-        self.cache = LikedList()
+        cacheList =  NodeList()
     }
     
     func get(_ key: Int) -> Int {
-        if map[key] == nil {
+        if let node = map[key] {
+            put(key, node.value!)
+            return node.value ?? -1
+        } else {
             return -1
         }
-        let val = (map[key] as? Node)!.val
-        //利用 put 方法把数据提前
-        put(key, val)
-        return val
     }
     
     func put(_ key: Int, _ value: Int) {
-        //先把新节点x 做出来
-        let x = Node.init(key, v: value)
-        if map[key] != nil {
-            //删除旧节点
-            cache.remove((map[key] as? Node)!)
-            cache.addFirst(x)
-            // 更新 map 中的数据
-            map[key] = x
+        let node = Node(key, value)
+        if let oldnode = map[key]  {
+            cacheList?.deleteNode(oldnode)
+            cacheList?.addFirst(node)
+            map[key] = node
         } else {
-            if capacity == cache.size {
-                // 删除链表最后一个节点
-                let last = cache.removeLast()
-                map.removeValue(forKey: last!.key)
+            if capacity == cacheList?.capacity {
+               if let key = cacheList?.removeLast()?.key {
+                   map.removeValue(forKey: key)
+               }
             }
-            /// 直接添加到头部
-            cache.addFirst(x)
-            map[key] = x
+            cacheList?.addFirst(node)
+            map[key] = node
         }
     }
 }
-
 
 class Node {
-    var key: Int
-    var val: Int
+    var key: Int?
+    var value: Int?
     var next: Node?
-    var prev: Node?
-    init(_ k: Int, v: Int) {
-        self.key = k
-        self.val = v
+    var pre: Node?
+    convenience init(_ key: Int, _ value: Int) {
+        self.init()
+        self.key = key
+        self.value = value
     }
 }
 
-class LikedList {
-    /// 虚拟头结点
+class NodeList {
+    var capacity: Int = 0
+    var next: Node?
+    var pre: Node?
     var head: Node?
-    /// 虚拟尾结点
     var tail: Node?
-    var size: Int = 0
+
     init() {
-        head = Node(0, v: 0)
-        tail = Node(0, v: 0)
+        capacity = 0
+        head =  Node()
+        tail = Node()
         head?.next = tail
-        tail?.prev = head
-        size = 0
+        tail?.pre = head
     }
-    
-    /// 在链表头部添加节点 x
-    func addFirst(_ x: Node) {
-        x.next = head?.next
-        x.prev = head
-        head?.next?.prev = x
-        head?.next = x
-        size += 1
+
+    func addFirst(_ node: Node) {
+        node.next = head?.next
+        node.pre = head
+        head?.next?.pre = node
+        head?.next = node
+        capacity += 1
+
     }
-    
-    /// 删除链表中的节点（x 一定存在）
-    func remove(_ x: Node) {
-        x.prev?.next = x.next
-        x.next?.prev = x.prev
-        size -= 1
+
+    func deleteNode(_ node: Node) {
+        node.pre?.next = node.next
+        node.next?.pre = node.pre
+        capacity -= 1
     }
-    
-    ///删除链表最后一个节点，并返回该节点
+
     func removeLast() -> Node? {
-        if tail?.prev?.val == head?.val {
+        if tail?.pre?.value == head?.value {
             return nil
         }
-        let last = tail?.prev
-        remove(last!)
+        let last = tail?.pre
+        if let last = tail?.pre {
+             deleteNode(last)
+        }
         return last
     }
 }
