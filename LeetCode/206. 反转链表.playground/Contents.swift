@@ -16,7 +16,7 @@
  */
 
 
-public class ListNode {
+public struct ListNode {
     public var val: Int
     public var next: ListNode?
     public init(_ val: Int) {
@@ -53,4 +53,8 @@ class Solution {
         return newHead
     }
     
+}
+
+extension ListNode: Equatable {
+    equalTo(self: <#T##CGPoint#>, <#T##CGPoint#>)
 }

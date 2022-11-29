@@ -46,3 +46,18 @@ class Solution {
  暴力方法破解：用两个for循环，遍历两次数组，看有没有和是目标值的。时间复杂度 O(n^2)
  哈希查找：建立哈希表，从左向右扫描一遍，将整数与索引存放到map中。扫描一遍，对其中的每一个整数K，搜索 target-K 在map中是否存在即可。若存在，则输出 K 与 target-K 的下标即可。此算法的时间复杂度为O(n)
  */
+
+
+var array  = [1, 2, 3]
+
+//aaa.remove(at: 10)
+
+
+for i in array {
+//    print("value 1: \(i) array: \(array)")
+    array.removeLast()
+    print("value 0: \(i) array: \(array)")
+
+}
+
+

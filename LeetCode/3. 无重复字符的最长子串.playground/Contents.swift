@@ -47,3 +47,40 @@ class Solution {
  3、res = max(res, j - maxValue + 1)
  4、Character 为 Key, j + 1 为 value, map[chars[j]] = j + 1
  */
+class Solution1 {
+    func moveZeroes(_ nums: inout [Int]) {
+        for (value, i) in nums.enumerated() {
+            if value == 0 {
+                nums.remove(at: i)
+                nums.append(0)
+            }
+        }
+    }
+}
+
+let aaa = [1, 2, 4]
+for (i, value) in aaa.enumerated() {
+    print("value: \(value)")
+}
+
+class People {
+    var value: String
+    required init(with value: String) {
+        self.value = value
+    }
+    
+    required convenience init(test: String) {
+        self.init(with: test)
+    }
+}
+
+class Student: People {
+    required init(with value: String) {
+        super.init(with: value)
+        print("value: \(value)")
+    }
+    
+
+}
+
+let ss = Student.init(test: "sss")

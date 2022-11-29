@@ -44,19 +44,23 @@
  链接：https://leetcode-cn.com/problems/intersection-of-two-linked-lists
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-
 class Solution {
-    func maxProfit(_ prices: [Int]) -> Int {
-        var minPrice = Int.max
-        var maxProfit = 0
-        for i in prices {
-            if i < minPrice {
-                minPrice = i
-            } else if i - minPrice > maxProfit {
-                maxProfit = i - minPrice
+    func getIntersectionNode(_ headA: ListNode?, _ headB: ListNode?) -> ListNode? {
+        var p1 = headA, p2 = headB
+        while p1 !== p2 {
+            if p1 == nil {
+                p1 = headB
+            } else {
+                p1 = p1?.next
             }
+            if p2 == nil {
+                p2 = headA
+            } else {
+                p2 = p2?.next
+            }
+            
         }
-        return maxProfit
-    }
+        
+        return p1
+    }ß
 }
-

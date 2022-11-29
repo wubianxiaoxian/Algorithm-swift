@@ -65,4 +65,12 @@ class Solution {
 
 //MARK: - Test
 
-
+/*
+ 1、双指针法
+setp:
+ 1 数组排序，定义 res
+ 2 定义左右指针
+ 3 定义要return的 special condition
+ 4 如果 i + left + right < 0, 左指针右移，i + left + right > 0, 右指针左移
+ 5 如果左右重复元素，跳过
+ */
