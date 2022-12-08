@@ -17,47 +17,54 @@
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
-
 class Solution {
     func checkInclusion(_ s1: String, _ s2: String) -> Bool {
-        var s1 = Array(s1)
-        var s2 = Array(s2)
-        let len1 = s1.count
-        let len2 = s2.count
-        if len1 > len2 { return false }
-        let base = Character("a").asciiValue
-        var count = Array(repeating: 0, count: 26)
-        
-        for i in 0..<len1 {
-            count[s1[i].asciiValue - base] += 1
-            count[s2[i].asciiValue - base] -= 1
+       let s = Array(s2), t = Array(s1)
+        var needs: [Character: Int] = [:], window: [Character: Int] = [:]
+        for c in t {
+            if let count = needs[c] {
+               needs[c] = count + 1
+            } else {
+                needs[c] = 1
+            }
         }
-        
-        if isAllZero(count) { return true }
-        
-        for i in len1..<len2 {
-            count[s2[i].asciiValue - base] -= 1
-            count[s2[i-len1].asciiValue - base] += 1
-            if isAllZero(count) { return true }
+        var left = 0, right = 0, valid = 0
+        // 记录最小覆盖子串的起始索引和长度
+        while right < s.count {
+            // c 是将移入窗口的字符
+            let c = s[right]
+            right += 1
+            if needs.keys.contains(c) {
+                if let count = window[c] {
+                    window[c] = count + 1
+                } else {
+                    window[c] = 1
+                }
+                if window[c] == needs[c] {
+                    valid += 1
+                }
+            }
+            // 判断左侧窗口是否要收缩
+            while (right - left) >= t.count {
+                //在这里更新最小覆盖子串
+                if valid == needs.count {
+                    return true
+                }
+                // d 是将要移除窗口的字符
+                let d = s[left]
+                //缩小窗口
+                left += 1
+                //进行窗口内数据的一系列更新
+                if needs.keys.contains(d) {
+                    if window[d] == needs[d] {
+                        valid -= 1
+                    }
+                    if let count = window[d] {
+                        window[d] = count - 1
+                    }
+                }
+            }
         }
         return false
     }
-    
-    func isAllZero(_ arr: [Int]) -> Bool {
-        for num in arr {
-            if num != 0 { return false }
-        }
-        return true
-    }
 }
-
-extension Character {
-    var asciiValue: Int {
-        get {
-            let s = String(self).unicodeScalars
-            return Int(s[s.startIndex].value)
-        }
-    }
-}
-
-

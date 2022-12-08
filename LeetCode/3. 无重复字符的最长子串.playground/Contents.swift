@@ -24,63 +24,27 @@
 
 class Solution {
     func lengthOfLongestSubstring(_ s: String) -> Int {
-        var chars = Array(s)
-        var map: [Character:Int] = [:]
-        var maxValue = 0
-        var res = 0
-        for j in 0..<chars.count {
-            if map.keys.contains(chars[j]) {
-                maxValue = max(maxValue, map[chars[j]]!)
+        var s = Array(s)
+        var window: [Character: Int] = [:]
+        var left = 0, right = 0, res = 0
+        while right < s.count {
+            let c = s[right]
+            right += 1
+            if let count = window[c] {
+                window[c] = count + 1
+            } else {
+                 window[c] =  1
             }
-            res = max(res, j - maxValue + 1)
-            map[chars[j]] = j + 1
+            while (window[c] ?? 0) > 1 {
+                let d = s[left]
+                left += 1
+                if let count = window[d] {
+                     window[d] = count - 1
+                }
+            }
+          res = max(res, right - left)
         }
         return res
     }
 }
 
-// 思路
-
-/*
- 1、定义字符串到索引的映射 map, Character 为 Key, j + 1 为 value
- 2、判断 map.keys 是否包含 chars[j]，如果包含，则 maxValue = max(maxValue, map[chars[j]]!)
- 3、res = max(res, j - maxValue + 1)
- 4、Character 为 Key, j + 1 为 value, map[chars[j]] = j + 1
- */
-class Solution1 {
-    func moveZeroes(_ nums: inout [Int]) {
-        for (value, i) in nums.enumerated() {
-            if value == 0 {
-                nums.remove(at: i)
-                nums.append(0)
-            }
-        }
-    }
-}
-
-let aaa = [1, 2, 4]
-for (i, value) in aaa.enumerated() {
-    print("value: \(value)")
-}
-
-class People {
-    var value: String
-    required init(with value: String) {
-        self.value = value
-    }
-    
-    required convenience init(test: String) {
-        self.init(with: test)
-    }
-}
-
-class Student: People {
-    required init(with value: String) {
-        super.init(with: value)
-        print("value: \(value)")
-    }
-    
-
-}
-
-let ss = Student.init(test: "sss")

@@ -18,22 +18,15 @@
 class Solution {
     func trap(_ height: [Int]) -> Int {
         var left = 0, right = height.count - 1
-        var res = 0
-        var leftMax = 0, rightMax = 0
+        var lMax = 0, rMax = 0, res = 0
         while left < right {
-            if height[left] <= height[right] {
-                if height[left] < leftMax {
-                    left += leftMax - height[left]
-                } else {
-                    leftMax = height[left]
-                }
+            lMax = max(lMax, height[left])
+            rMax = max(rMax, height[right])
+            if lMax < rMax {
+                res += lMax - height[left]
                 left += 1
             } else {
-                if height[right] < rightMax {
-                    res += rightMax - height[right]
-                } else {
-                    rightMax = height[right]
-                }
+                res += rMax - height[right]
                 right -= 1
             }
         }
@@ -41,11 +34,6 @@ class Solution {
     }
 }
 
-//MARK: - 思路
-/* 双指针
- 暴力方法破解：用两个for循环，遍历两次数组，看有没有和是目标值的。时间复杂度 O(n^2)
- 哈希查找：建立哈希表，从左向右扫描一遍，将整数与索引存放到map中。扫描一遍，对其中的每一个整数K，搜索 target-K 在map中是否存在即可。若存在，则输出 K 与 target-K 的下标即可。此算法的时间复杂度为O(n)
- */
 
 
 var array  = [1, 2, 3]
