@@ -1,0 +1,18 @@
+import glob
+import re
+
+# 打开 readme.md 文件
+with open("readme.md", "w") as f:
+    # 输出表格头部
+    f.write("| **Leetcode** | Code \n| :--- | :---: |\n")
+
+    # 扫描当前文件夹中 .playground 文件，并截取不包含 .playground 的文件名
+    names = [re.sub(r"\.playground$", "", file) for file in glob.glob("*.playground")]
+
+    # 扫描文件名中的数字，并按照数字大小排序
+    sorted_names = sorted(names, key=lambda x: int(re.search(r"\d+", x).group()))
+
+    # 遍历数组的元素，以表格的形式输出到 readme.md，每行文件名后面都要加上换行
+    for file in sorted_names:
+        f.write(f"| {file} |[Swift](LeetCode/)  \n")
+
